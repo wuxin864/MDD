@@ -1,0 +1,126 @@
+grammar uk.kcl.pgt.mdd.cw.Game with org.eclipse.xtext.common.Terminals
+
+generate game "http://www.kcl.uk/pgt/mdd/cw/Game"
+
+Game:
+ 'game' name=ID '(' attrAssList=AttrAssList? ')' decl+=Decl* initBlock=StmtBlock functions+=Block* ;
+ 
+Decl:
+ VarDecl ';' | ObjDecl ';'
+;
+
+VarDecl:
+ type='int' name=ID  '=' expr=Expr | type='int' name=ID '[' arrSize=INT ']'
+;
+
+ObjDecl:
+ type=OBJTYPE name=ID '(' attrAssList=AttrAssList? ')' | type=OBJTYPE name=ID '[' arrSize=INT ']'
+;
+ 
+AttrAssList:
+ attrAss += AttrAss (',' attrAss += AttrAss)*
+;
+
+AttrAss:
+ name=ID '=' expr=Expr
+;
+
+StmtBlock:
+ '{' statements+=Stmt* '}'
+;
+
+Stmt:
+ IfStmt | WhileStmt | ForStmt | EndStmt | AssStmt ';'
+;
+
+IfStmt:
+ 'if' '(' condition=Expr ')' consequence=StmtBlock ('else' alternative=StmtBlock)?
+;
+
+WhileStmt:
+  'while' '(' whileCondition=Expr ')' stmtBlock=StmtBlock
+;
+
+ForStmt:
+ 'for' '(' initStmt=AssStmt ';' endCondition=Expr ';' loopStmt=AssStmt ')' stmtBlock=StmtBlock
+;
+
+EndStmt:
+ 'exit' '(' IntLiteral ')' ';'
+;
+
+AssStmt:
+ var=Var '=' assignment=Expr
+;
+
+Var:
+ name=ID varArray=VarArray? varProp=VarProp?
+;
+
+VarArray:
+ '[' indexExpr=Expr ']'
+;
+
+VarProp: 
+ '.' extId=ID
+;
+
+Block:
+ AnimBlock | EventBlock
+;
+
+AnimBlock:
+ 'animation' name=ID '(' objType=OBJTYPE objName=ID ')' stmtBlock=StmtBlock
+;
+
+EventBlock:
+ 'on' key=KEYSTROKE stmtBlock=StmtBlock
+;
+
+Expr returns Expression:
+ AndExpr ({Operation.left=current} op='||' right=AndExpr)*
+;
+
+AndExpr returns Expression:
+ RelExpr ({Operation.left=current} op='&&' right=RelExpr)*
+;
+
+RelExpr returns Expression:
+ AddExpr ({Operation.left=current} op=('==' | '<' | '<=') right=AddExpr)*
+;
+
+AddExpr returns Expression:
+ MultExpr ({Operation.left=current} op=('+' | '-') right=MultExpr)*
+;
+
+MultExpr returns Expression:
+ (UnaryExpr | Atom) ({Operation.left=current} op=('*' | '/') (right=UnaryExpr | right=Atom))*
+;
+
+UnaryExpr returns Expression:
+ UnaryOperation
+;
+
+Atom returns Expression:
+ IntLiteral | Var ({Operation.left=current} op='touches' right=Var)? | ExprVar
+;
+
+UnaryOperation:
+ op=('!' | '-') right=Atom
+;
+
+IntLiteral:
+ value=INT
+;
+
+ExprVar:
+ '(' expr=Expr ')'
+;
+
+terminal OBJTYPE:
+ 'rectangle' | 'circle' | 'triangle'
+;
+
+terminal KEYSTROKE:
+ 'leftarrow' | 'rightarrow' | 'uparrow' | 'downarrow'
+;

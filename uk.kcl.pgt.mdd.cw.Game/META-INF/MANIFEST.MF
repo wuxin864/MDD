@@ -1,0 +1,29 @@
+Manifest-Version: 1.0
+Automatic-Module-Name: uk.kcl.pgt.mdd.cw.Game
+Bundle-ManifestVersion: 2
+Bundle-Name: uk.kcl.pgt.mdd.cw.Game
+Bundle-Vendor: My Company
+Bundle-Version: 1.0.0.qualifier
+Bundle-SymbolicName: uk.kcl.pgt.mdd.cw.Game; singleton:=true
+Bundle-ActivationPolicy: lazy
+Require-Bundle: org.eclipse.xtext,
+ org.eclipse.xtext.xbase,
+ org.eclipse.equinox.common;bundle-version="3.5.0",
+ org.eclipse.emf.ecore,
+ org.eclipse.xtext.xbase.lib;bundle-version="2.14.0",
+ org.eclipse.xtext.util,
+ org.eclipse.emf.common,
+ org.antlr.runtime;bundle-version="[3.2.0,3.2.1)"
+Bundle-RequiredExecutionEnvironment: JavaSE-11
+Export-Package: uk.kcl.pgt.mdd.cw.serializer,
+ uk.kcl.pgt.mdd.cw.game,
+ uk.kcl.pgt.mdd.cw.parser.antlr,
+ uk.kcl.pgt.mdd.cw.services,
+ uk.kcl.pgt.mdd.cw.parser.antlr.internal,
+ uk.kcl.pgt.mdd.cw,
+ uk.kcl.pgt.mdd.cw.generator,
+ uk.kcl.pgt.mdd.cw.game.impl,
+ uk.kcl.pgt.mdd.cw.validation,
+ uk.kcl.pgt.mdd.cw.scoping,
+ uk.kcl.pgt.mdd.cw.game.util
+Import-Package: org.apache.log4j

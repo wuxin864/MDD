@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: GameXpect
+Bundle-SymbolicName: GameXpect
+Bundle-Version: 1.0.0.qualifier
+Automatic-Module-Name: GameXpect
+Bundle-RequiredExecutionEnvironment: JavaSE-15
+Require-Bundle: org.eclipse.xpect.xtext.lib;bundle-version="0.2.0",
+ uk.kcl.pgt.mdd.cw.Game;bundle-version="1.0.0",
+ uk.kcl.pgt.mdd.cw.Game.ui;bundle-version="1.0.0"
